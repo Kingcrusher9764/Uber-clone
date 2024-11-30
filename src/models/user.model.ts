@@ -2,7 +2,26 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const userSchema = new mongoose.Schema({
+interface IUser {
+    fullname: {
+        firstname: string;
+        lastname?: string;
+    },
+    email: string;
+    password: string;
+    socketId?: string;
+}
+
+interface IUserMethods {
+    generateAuthToken(): string;
+    comparePassword(password: string): Promise<boolean>;
+}
+
+interface userSchemaType extends mongoose.Model<IUser, {}, IUserMethods> {
+    hashPassword(password: string): Promise<string>;
+}
+
+const userSchema = new mongoose.Schema<IUser, userSchemaType, IUserMethods>({
     fullname: {
         firstname: {
             type: String,
@@ -43,5 +62,5 @@ userSchema.statics.hashPassword = async function(password: string) {
     return await bcrypt.hash(password, 14)
 }
 
-const User = mongoose.model("user", userSchema);
-export default User;
+const User = mongoose.model<IUser, userSchemaType>("user", userSchema);
+export default User

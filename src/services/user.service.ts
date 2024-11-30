@@ -6,7 +6,8 @@ interface createUserProps {
     email: string;
     password: string;
 }
-export function createUser({
+
+export async function createUser({
     firstname, lastname, email, password,
 }: createUserProps) {
 
