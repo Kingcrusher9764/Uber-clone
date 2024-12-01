@@ -86,10 +86,10 @@ It is used to register a driver
 
 ### Request body
 - `fullname` (object, required):
-    - `firstname` (string, required): User first name
-    - `lastname` (string, optional): User last name
+    - `firstname` (string, required): Driver first name
+    - `lastname` (string, optional): Driver last name
 - `email` (string, required): User email
-- `password` (string, required): User password
+- `password` (string, required): Driver password
 - `vehicle` (object, required):
     - `color` (string, required): Vehicle color
     - `plate` (string, required): Vehicle plate
@@ -100,14 +100,74 @@ It is used to register a driver
 - `token` (string): JWT Token
 - `driver` (object):
     - `fullname` (object):
-        - `firstname` (string): User first name
-        - `lastname` (string): User last name
-    - `email` (string): User email
+        - `firstname` (string): Driver first name
+        - `lastname` (string): Driver last name
+    - `email` (string): Driver email
     - `vehicle` (object):
         - `color` (string): Vehicle color
         - `plate` (string): Vehicle plate
         - `capacity` (number): Vehicle capacity
         - `vehicleType` (string): Vehicle Type i.e, car, motorcycle or auto
 
+
+## `/drivers/login` Endpoint
+
+### Description
+It is used to login the driver
+
+### Method
+`POST`
+
+### Request body
+- `email` (string, required): Driver email
+- `password` (string, required): Driver password
+
+### Response Example
+- `token` (string): JWT Token
+- `driver` (object):
+    - `fullname` (object):
+        - `firstname` (string): Driver first name
+        - `lastname` (string): Driver last name
+    - `email` (string): Driver email
+    - `vehicle` (object):
+        - `color` (string): Vehicle color
+        - `plate` (string): Vehicle plate
+        - `capacity` (number): Vehicle capacity
+
+
+## `/drivers/profile` Endpoint
+
+### Description
+It is used to get the current user data
+
+### Method
+`GET`
+
+### Authentication
+- Requires jwt token in the header i.e, `Authorization: Bearer <jwt-token>` or cookie
+
+### Response Example
+- `token` (string): JWT Token
+- `driver` (object):
+    - `fullname` (object):
+        - `firstname` (string): Driver first name
+        - `lastname` (string): Driver last name
+    - `email` (string): Driver email
+    - `vehicle` (object):
+        - `color` (string): Vehicle color
+        - `plate` (string): Vehicle plate
+        - `capacity` (number): Vehicle capacity
+
+
+## `/drivers/logout` Endpoint
+
+### Description
+It is used to logout the current driver and blacklist the token
+
+### Method
+`POST`
+
+### Authentication
+- Requires jwt token in the header i.e, `Authorization: Bearer <jwt-token>` or cookie
 
 

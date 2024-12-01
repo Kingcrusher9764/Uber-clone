@@ -1,6 +1,8 @@
 import express from "express"
 import { body } from "express-validator"
+
 import * as driverController from "../controllers/driver.controller.ts"
+import { authDriver } from "../middlewares/auth.middleware.ts"
 
 const router = express.Router()
 
@@ -15,5 +17,13 @@ router.post("/register", [
 ],
     driverController.registerDriver
 )
+
+router.post("/login", [
+    body("email").isEmail().withMessage("Invalid email"),
+    body("password").isLength({ min: 6 }).withMessage("Password must contain atleast 6 character."),
+], driverController.loginDriver)
+
+router.get("/profile", authDriver, driverController.getDriverProfile)
+router.get("/logout", authDriver, driverController.logoutDriver)
 
 export default router
