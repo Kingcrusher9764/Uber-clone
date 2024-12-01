@@ -8,6 +8,7 @@ import express from "express"
 import cookieParser from "cookie-parser"
 
 import userRoutes from "./routes/user.routes.ts"
+import driverRoutes from "./routes/driver.routes.ts"
 
 const app = express()
 
@@ -16,10 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-app.get("/", (req, res) => {
-    res.send("running new")
-})
-
 app.use("/users", userRoutes)
+app.use("/drivers", driverRoutes)
 
 export default app
