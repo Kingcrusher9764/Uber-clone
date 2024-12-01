@@ -2,6 +2,8 @@ import express from "express"
 import { validationResult } from "express-validator"
 import User from "../models/user.model.ts"
 import * as userService from "../services/user.service.ts"
+import { CustomRequest } from "utils/types/types.ts"
+import BlackListToken from "../models/blacklistToken.model.ts"
 
 export async function registerUser(
     req: express.Request,
@@ -26,10 +28,10 @@ export async function registerUser(
     })
 
     const token = user.generateAuthToken()
-
     res.status(201).json({ token: token, user: user })
     return
 }
+
 
 export async function loginUser(
     req: express.Request,
@@ -57,7 +59,34 @@ export async function loginUser(
     }
 
     const token = user.generateAuthToken()
+    res.cookie("token", token)
     res.status(200).json({ token: token, user: user })
     return
+
+}
+
+
+export async function getUserProfile(
+    req: CustomRequest,
+    res: express.Response,
+    next: express.NextFunction
+) {
+    res.status(200).json(req.user)
+}
+
+
+export async function logoutUser(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+) {
+
+    res.clearCookie("token")
+    const token = req.cookies?.token as string || req.headers?.authorization.split(" ")[1] as string;
+
+    // Blacklisted the jwt token
+    await BlackListToken.create({ token: token })
+
+    res.status(200).json({ message: "Logged out" })
 
 }

@@ -23,6 +23,7 @@ It is used to register a user
         - `lastname` (string): User last name
     - `email` (string): User email
 
+
 ## `/users/login` Endpoint
 
 ### Description
@@ -42,3 +43,35 @@ It is used to login the user
         - `firstname` (string): User first name
         - `lastname` (string): User last name
     - `email` (string): User email
+
+
+## `/users/profile` Endpoint
+
+### Description
+It is used to get the current user data
+
+### Method
+`GET`
+
+### Authentication
+- Requires jwt token in the header i.e, `Authorization: Bearer <jwt-token>` or cookie
+
+### Response Example
+- `user` (object):
+    - `fullname` (object):
+        - `firstname` (string): User first name
+        - `lastname` (string): User last name
+    - `email` (string): User email
+
+
+## `/users/logout` Endpoint
+
+### Description
+It is used to logout the current user and blacklist the token
+
+### Method
+`POST`
+
+### Authentication
+- Requires jwt token in the header i.e, `Authorization: Bearer <jwt-token>` or cookie
+

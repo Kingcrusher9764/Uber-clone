@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-interface IUser {
+export interface IUser {
     fullname: {
         firstname: string;
         lastname?: string;
@@ -12,7 +12,7 @@ interface IUser {
     socketId?: string;
 }
 
-interface IUserMethods {
+export interface IUserMethods {
     generateAuthToken(): string;
     comparePassword(password: string): Promise<boolean>;
 }
@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema<IUser, userSchemaType, IUserMethods>({
 })
 
 userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET)
+    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: "24h" })
     return token
 }
 
