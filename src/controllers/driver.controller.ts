@@ -58,7 +58,7 @@ export async function loginDriver(
 
     const { email, password } = req.body
 
-    const driver = await Driver.findOne({ email })
+    const driver = await Driver.findOne({ email }).select("+password")
     if (!driver) {
         res.status(400).json({ message: "Invalid email or password" })
         return
